@@ -8,7 +8,6 @@ export const useGetPeople = () => {
   const fetchPeople = async () => {
     try {
         setSnapshot(await getPeople())
-        console.log('hooks: ', snapshot.user);
     } catch (error) {
         throw new Error(error);
     } finally {
