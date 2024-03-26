@@ -1,12 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const useLogin = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  // Cek apakah ada token yang tersimpan di localStorage
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      window.location.href = '/user/dashboard';
+    }
+  }, []);
+
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
@@ -14,20 +23,20 @@ const useLogin = () => {
   };
 
   const validateForm = () => {
-    if (username === '' || password === '') {
-      setError('Username dan password harus diisi');
+    if (email === '' || password === '') {
+      setError('email dan password harus diisi');
       return false;
     }
     return true;
   };
 
   const resetForm = () => {
-    setUsername('');
+    setEmail('');
     setPassword('');
     setError('');
   };
 
-  return { username, password, error, handleUsernameChange, handlePasswordChange, validateForm, resetForm };
+  return { email, password, error, handleEmailChange, handlePasswordChange, validateForm, resetForm };
 };
 
 export default useLogin;

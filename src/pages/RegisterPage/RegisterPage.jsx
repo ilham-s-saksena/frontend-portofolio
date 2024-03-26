@@ -1,21 +1,23 @@
 import React from 'react';
 import foto from '../../assets/main-logo.png';
-import useLogin from './../../Hooks/useLogin';
-import { login } from './../../Services/login';
+import useRegister from './../../Hooks/userRegister';
+import { register } from './../../Services/register';
 
 
 const Login = () => {
 
-    const { email, password, error, handleEmailChange, handlePasswordChange, validateForm, resetForm } = useLogin();
+    const { name, email, password, password_confirm, error, handleNameChange, handleEmailChange, handlePasswordChange, handlePasswordConfirmChange, validateForm, resetForm } = useRegister();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (validateForm()) {
         try {
-            const response = await login(email, password);
+            const response = await register(name, email, password);
+            console.log(response);
             resetForm();
         } catch (error) {
-            console.error('Error during login:', error);
+            console.error('Error during Register:', error);
+            // Handle error
         }
         }
     };
@@ -35,12 +37,20 @@ const Login = () => {
                         </h1>
                         <form className="space-y-4 md:space-y-6" action="#" onSubmit={handleSubmit}>
                             <div>
+                                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
+                                <input type="text" name="name" id="name" value={name} onChange={handleNameChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your Full Name" required=""/>
+                            </div>
+                            <div>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                                 <input type="email" name="email" id="email" value={email} onChange={handleEmailChange} className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required=""/>
                             </div>
                             <div>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                                 <input type="password" name="password" id="password" value={password} onChange={handlePasswordChange} placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
+                            </div>
+                            <div>
+                                <label htmlFor="password_confirm" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password Confirmation</label>
+                                <input type="password" name="password_confirm" id="password_confirm" value={password_confirm} onChange={handlePasswordConfirmChange} placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""/>
                             </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-start">
@@ -56,7 +66,7 @@ const Login = () => {
                             {error && <p style={{ color: 'red' }}>{error}</p>}
                             <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
                             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Don’t have an account yet? <a href="/auth/register" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
+                                Already Have an Account? <a href="/auth/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign In</a>
                             </p>
                         </form>
                     </div>
